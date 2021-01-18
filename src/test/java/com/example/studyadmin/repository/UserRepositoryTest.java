@@ -40,15 +40,23 @@ public class UserRepositoryTest extends StudyadminApplication {
   }
 
   @Test
+  @Transactional
   public void read() {
 
-    Optional<User> user = userRepository.findById(4L); // findById는 Optional로 받음
+    Optional<User> user = userRepository.findById(3L); // findById는 Optional로 받음
 
-    user.ifPresent(System.out::println);
+    Assertions.assertTrue(user.isPresent());
     user.ifPresent(user1 -> {
-      System.out.println(user1.getEmail());
+      user1.getOrderDetails().forEach(orderDetail -> {
+        System.out.println(orderDetail.getItem());
+      });
     });
 
+    Optional<User> user2 = userRepository.findByAccount("Test1");
+    Assertions.assertTrue(user2.isPresent());
+    user2.ifPresent(user1 -> {
+      System.out.println(user1.getEmail());
+    });
   }
 
   @Test

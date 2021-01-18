@@ -1,6 +1,5 @@
 package com.example.studyadmin.model.entity;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -18,28 +17,20 @@ import lombok.ToString;
 @NoArgsConstructor
 @Entity
 @ToString(exclude = {"orderDetails"})
-public class User {
-
+public class Item {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  private String account;
+  private String name;
 
-  private String email;
+  private int price;
 
-  private String phoneNumber;
+  private String content;
 
-  private LocalDateTime createdAt;
-
-  private String createdBy;
-
-  private LocalDateTime updatedAt;
-
-  private String updatedBy;
-
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "item")
   private List<OrderDetail> orderDetails;
+
 
 }
