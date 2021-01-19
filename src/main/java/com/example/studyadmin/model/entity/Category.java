@@ -5,42 +5,32 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
-@Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@Data
 @Entity
-//@ToString(exclude = {"user", "item"})
-public class OrderDetail {
+public class Category {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private long id;
+  private Long id;
 
-  private String status;
+  private String type;
 
-  private LocalDateTime arrivalDate;
-
-  private int quantity;
-
-  private float totalPrice;
+  private String title;
 
   private LocalDateTime createdAt;
 
-  private String createdBy;
-
   private LocalDateTime updatedAt;
+
+  private String createdBy;
 
   private String updatedBy;
 
-//  @ManyToOne
-//  private OrderGroup orderGroup;
-//
-//  @ManyToOne
-//  private Item item;
+
+
 }

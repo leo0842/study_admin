@@ -1,41 +1,37 @@
 package com.example.studyadmin.model.entity;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@ToString(exclude = {"orderDetails"})
-public class Item {
+public class AdminUser {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  private String account;
+
+  private String password;
+
   private String status;
 
-  private String name;
+  private String role;
 
-  private String title;
+  private LocalDateTime lastLoginAt;
 
-  private float price;
+  private int loginFailCount;
 
-  private String content;
-
-  private String brandName;
+  private LocalDateTime passwordUpdatedAt;
 
   private LocalDateTime registeredAt;
 
@@ -43,17 +39,12 @@ public class Item {
 
   private LocalDateTime createdAt;
 
-  private String createdBy;
-
   private LocalDateTime updatedAt;
+
+  private String createdBy;
 
   private String updatedBy;
 
-//  @ManyToOne
-//  private Partner partner;
-//
-//  @OneToMany(fetch = FetchType.LAZY, mappedBy = "item")
-//  private List<OrderDetail> orderDetails;
 
 
 }

@@ -1,25 +1,20 @@
 package com.example.studyadmin.model.entity;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@ToString(exclude = {"orderDetails"})
-public class Item {
+public class OrderGroup {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,33 +22,31 @@ public class Item {
 
   private String status;
 
-  private String name;
+  private String orderType;
 
-  private String title;
+  private String revAddress;
 
-  private float price;
+  private String revName;
 
-  private String content;
+  private String paymentType;
 
-  private String brandName;
+  private float totalPrice;
 
-  private LocalDateTime registeredAt;
+  private int totalQuantity;
 
-  private LocalDateTime unregisteredAt;
+  private LocalDateTime orderAt;
+
+  private LocalDateTime arrivalDate;
 
   private LocalDateTime createdAt;
 
-  private String createdBy;
-
   private LocalDateTime updatedAt;
+
+  private String createdBy;
 
   private String updatedBy;
 
 //  @ManyToOne
-//  private Partner partner;
-//
-//  @OneToMany(fetch = FetchType.LAZY, mappedBy = "item")
-//  private List<OrderDetail> orderDetails;
-
+//  private User user;
 
 }
