@@ -15,7 +15,6 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-//@ToString(exclude = {"user", "item"})
 public class OrderDetail {
 
   @Id
@@ -38,9 +37,9 @@ public class OrderDetail {
 
   private String updatedBy;
 
-//  @ManyToOne
-//  private OrderGroup orderGroup;
-//
-//  @ManyToOne
-//  private Item item;
+  @ManyToOne
+  private OrderGroup orderGroup;
+
+  @ManyToOne
+  private Item item;
 }

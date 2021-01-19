@@ -12,12 +12,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import lombok.ToString.Exclude;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@ToString(exclude = {"orderDetails"})
 public class User {
 
 
@@ -47,7 +47,8 @@ public class User {
 
   private String updatedBy;
 
-//  @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-//  private List<OrderDetail> orderDetails;
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+  @Exclude
+  private List<OrderGroup> orderGroups;
 
 }

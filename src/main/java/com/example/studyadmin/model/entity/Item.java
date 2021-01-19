@@ -13,12 +13,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import lombok.ToString.Exclude;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@ToString(exclude = {"orderDetails"})
 public class Item {
 
   @Id
@@ -49,11 +49,12 @@ public class Item {
 
   private String updatedBy;
 
-//  @ManyToOne
-//  private Partner partner;
-//
-//  @OneToMany(fetch = FetchType.LAZY, mappedBy = "item")
-//  private List<OrderDetail> orderDetails;
+  @ManyToOne
+  private Partner partner;
+
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "item")
+  @Exclude
+  private List<OrderDetail> orderDetails;
 
 
 }

@@ -1,14 +1,18 @@
 package com.example.studyadmin.model.entity;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString.Exclude;
 
 @Data
 @AllArgsConstructor
@@ -46,7 +50,11 @@ public class OrderGroup {
 
   private String updatedBy;
 
-//  @ManyToOne
-//  private User user;
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "orderGroup")
+  @Exclude
+  private List<OrderDetail> orderDetails;
+
+  @ManyToOne
+  private User user;
 
 }
