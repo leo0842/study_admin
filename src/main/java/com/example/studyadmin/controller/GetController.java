@@ -1,6 +1,7 @@
 package com.example.studyadmin.controller;
 
 import com.example.studyadmin.model.SearchParam;
+import com.example.studyadmin.model.network.Header;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,5 +34,11 @@ public class GetController {
     return searchParam;
 
 
+  }
+
+  @GetMapping(path = "/header")
+  public Header getHeader(){
+
+    return Header.builder().resultCode("OK").description("Good").build();
   }
 }
