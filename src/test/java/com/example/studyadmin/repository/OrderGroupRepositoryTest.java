@@ -22,17 +22,20 @@ public class OrderGroupRepositoryTest extends StudyadminApplication {
   @Test
   public void create(){
     OrderGroup orderGroup = new OrderGroup();
-    User user = userRepository.findByAccount("Test1");
-
+//    User user = userRepository.findByAccount("Test1");
+    userRepository.findById(1L)
+        .map(user -> {
+          orderGroup.setUser(user);
+          return user;
+        });
     orderGroup.setStatus("Waiting");
     orderGroup.setOrderType("All");
     orderGroup.setArrivalDate(LocalDateTime.now().plusDays(2));
     orderGroup.setTotalPrice((float) 90000.5);
-    orderGroup.setUser(user);
 
     OrderGroup newOrderGroup =  orderGroupRepository.save(orderGroup);
     Assertions.assertNotNull(newOrderGroup);
-    System.out.println(newOrderGroup);
+    System.out.println("newOrderGroup: "+ newOrderGroup);
   }
 
 }
