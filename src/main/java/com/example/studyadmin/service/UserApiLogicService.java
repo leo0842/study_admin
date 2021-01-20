@@ -7,6 +7,7 @@ import com.example.studyadmin.model.network.request.UserApiRequest;
 import com.example.studyadmin.model.network.response.UserApiResponse;
 import com.example.studyadmin.repository.UserRepository;
 import java.time.LocalDateTime;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -49,17 +50,35 @@ public class  UserApiLogicService implements CrudInterface<UserApiRequest, UserA
 
   @Override
   public Header<UserApiResponse> read(Long id) {
-    return null;
+
+    Optional<User> user = userRepository.findById(id);
+
+    return user
+        .map(user1 -> response(user1))
+        .orElseGet(() -> Header.ERROR("No Data found"));
   }
 
   @Override
   public Header<UserApiResponse> update(Header<UserApiRequest> request) {
-    return null;
+
+    UserApiRequest userApiRequest = request.getData();
+
+    System.out.println("userApiRequest: " + userApiRequest);
+    Optional<User> user = userRepository.findById(userApiRequest.getId());
+    System.out.println("user: "+ user);
+
+    return user
+        .map(user1 -> updateResponse(user1, userApiRequest))
+        .orElseGet(() -> Header.ERROR("No data to update")); //무조건 orElseGet이 필요. 왜지??
   }
 
   @Override
-  public Header<UserApiResponse> delete(Long id) {
-    return null;
+  public Header<Object> delete(Long id) {
+    Optional<User> user = userRepository.findById(id);
+    return user.map(user1 -> {
+      userRepository.delete(user1);
+      return Header.OK();
+    }).orElseGet(() -> Header.ERROR("No data to delete"));
   }
 
   private Header<UserApiResponse> response(User user){
@@ -74,7 +93,22 @@ public class  UserApiLogicService implements CrudInterface<UserApiRequest, UserA
         .registeredAt(user.getRegisteredAt())
         .build();
 
+    System.out.println("userApiResponse in response()"+userApiResponse);
+
     return Header.OK(userApiResponse);
 
+  }
+
+  private Header<UserApiResponse> updateResponse(User user, UserApiRequest request){
+    user.setAccount(request.getAccount());
+    user.setEmail(request.getEmail());
+    user.setStatus(request.getStatus());
+    user.setPassword(request.getPassword());
+    user.setPhoneNumber(request.getPhoneNumber());
+
+    User updatedUser = userRepository.save(user);
+
+    System.out.println("updateResponse: " + updatedUser);
+    return response(updatedUser);
   }
 }
