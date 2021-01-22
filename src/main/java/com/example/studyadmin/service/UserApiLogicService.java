@@ -13,10 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class  UserApiLogicService implements CrudInterface<UserApiRequest, UserApiResponse> {
-
-  @Autowired
-  private UserRepository userRepository;
+public class UserApiLogicService extends BaseService<UserApiRequest, UserApiResponse, User> {
 
   //1. request data 받기
   //2. 받은 data로 User 생성
@@ -42,7 +39,7 @@ public class  UserApiLogicService implements CrudInterface<UserApiRequest, UserA
         .createdBy("Admin")
         .build();
 
-    User newUser = userRepository.save(user);
+    User newUser = baseRepository.save(user);
     System.out.println("newUser: "+newUser);
 
     // 3.
@@ -52,7 +49,7 @@ public class  UserApiLogicService implements CrudInterface<UserApiRequest, UserA
   @Override
   public Header<UserApiResponse> read(Long id) {
 
-    Optional<User> user = userRepository.findById(id);
+    Optional<User> user = baseRepository.findById(id);
 
     return user
         .map(user1 -> response(user1))
@@ -65,7 +62,7 @@ public class  UserApiLogicService implements CrudInterface<UserApiRequest, UserA
     UserApiRequest userApiRequest = request.getData();
 
     System.out.println("userApiRequest: " + userApiRequest);
-    Optional<User> user = userRepository.findById(userApiRequest.getId());
+    Optional<User> user = baseRepository.findById(userApiRequest.getId());
     System.out.println("user: "+ user);
 
     return user
@@ -75,9 +72,9 @@ public class  UserApiLogicService implements CrudInterface<UserApiRequest, UserA
 
   @Override
   public Header<Object> delete(Long id) {
-    Optional<User> user = userRepository.findById(id);
+    Optional<User> user = baseRepository.findById(id);
     return user.map(user1 -> {
-      userRepository.delete(user1);
+      baseRepository.delete(user1);
       return Header.OK();
     }).orElseGet(() -> Header.ERROR("No data to delete"));
   }
@@ -107,7 +104,7 @@ public class  UserApiLogicService implements CrudInterface<UserApiRequest, UserA
     user.setPassword(request.getPassword());
     user.setPhoneNumber(request.getPhoneNumber());
 
-    User updatedUser = userRepository.save(user);
+    User updatedUser = baseRepository.save(user);
 
     System.out.println("updateResponse: " + updatedUser);
     return response(updatedUser);
