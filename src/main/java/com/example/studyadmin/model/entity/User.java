@@ -1,8 +1,11 @@
 package com.example.studyadmin.model.entity;
 
+import com.example.studyadmin.model.enumclass.UserStatus;
 import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -31,7 +34,8 @@ public class User {
 
   private String password;
 
-  private String status;
+  @Enumerated(EnumType.STRING)
+  private UserStatus status;
 
   private String email;
 

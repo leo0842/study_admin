@@ -2,6 +2,7 @@ package com.example.studyadmin.service;
 
 import com.example.studyadmin.ifs.CrudInterface;
 import com.example.studyadmin.model.entity.User;
+import com.example.studyadmin.model.enumclass.UserStatus;
 import com.example.studyadmin.model.network.Header;
 import com.example.studyadmin.model.network.request.UserApiRequest;
 import com.example.studyadmin.model.network.response.UserApiResponse;
@@ -33,7 +34,7 @@ public class  UserApiLogicService implements CrudInterface<UserApiRequest, UserA
     User user = User.builder()
         .account(userApiRequest.getAccount())
         .password(userApiRequest.getPassword())
-        .status("REGISTERED")
+        .status(UserStatus.REGISTERED)
         .phoneNumber(userApiRequest.getPhoneNumber())
         .email(userApiRequest.getEmail())
         .registeredAt(LocalDateTime.now())

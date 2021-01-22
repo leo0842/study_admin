@@ -1,6 +1,9 @@
 package com.example.studyadmin.model.network.response;
 
+import com.example.studyadmin.model.enumclass.UserStatus;
 import java.time.LocalDateTime;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,7 +21,7 @@ public class UserApiResponse {
 
   private String password;
 
-  private String status;
+  private UserStatus status;
 
   private String email;
 
