@@ -3,7 +3,11 @@ package com.example.studyadmin.controller;
 import com.example.studyadmin.ifs.CrudInterface;
 import com.example.studyadmin.model.network.Header;
 import com.example.studyadmin.service.BaseService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +21,12 @@ public abstract class CrudController<Req, Res, Entity> implements CrudInterface<
 
   @Autowired(required = false)
   protected BaseService<Req, Res, Entity> baseService;
+
+  @GetMapping("")
+  public Header<List<Res>> search(@PageableDefault(sort = "id", size = 5, direction = Direction.ASC) Pageable pageable){
+    System.out.println(pageable);
+    return baseService.search(pageable);
+  }
 
   @Override
   @PostMapping("")

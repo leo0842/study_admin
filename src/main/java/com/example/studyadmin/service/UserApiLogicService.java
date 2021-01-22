@@ -8,8 +8,13 @@ import com.example.studyadmin.model.network.request.UserApiRequest;
 import com.example.studyadmin.model.network.response.UserApiResponse;
 import com.example.studyadmin.repository.UserRepository;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,10 +24,21 @@ public class UserApiLogicService extends BaseService<UserApiRequest, UserApiResp
   //2. 받은 data로 User 생성
   //3. 생성된 데이터 return
 
+  public Header<List<UserApiResponse>> search(Pageable pageable) {
+    System.out.println("HI");
+    Page<User> users = baseRepository.findAll(pageable);
+    List<UserApiResponse> userApiResponseList = users
+        .map(user -> response(user))
+        .map(user2 -> user2.getData())
+        .stream().collect(Collectors.toList());
+
+    return Header.OK(userApiResponseList);
+  }
+
   @Override
   public Header<UserApiResponse> create(Header<UserApiRequest> request) {
 
-    System.out.println("request: "+request);
+    System.out.println("request: " + request);
     // 1.
     UserApiRequest userApiRequest = request.getData();
 
@@ -40,7 +56,7 @@ public class UserApiLogicService extends BaseService<UserApiRequest, UserApiResp
         .build();
 
     User newUser = baseRepository.save(user);
-    System.out.println("newUser: "+newUser);
+    System.out.println("newUser: " + newUser);
 
     // 3.
     return response(newUser);
@@ -63,7 +79,7 @@ public class UserApiLogicService extends BaseService<UserApiRequest, UserApiResp
 
     System.out.println("userApiRequest: " + userApiRequest);
     Optional<User> user = baseRepository.findById(userApiRequest.getId());
-    System.out.println("user: "+ user);
+    System.out.println("user: " + user);
 
     return user
         .map(user1 -> updateResponse(user1, userApiRequest))
@@ -79,7 +95,7 @@ public class UserApiLogicService extends BaseService<UserApiRequest, UserApiResp
     }).orElseGet(() -> Header.ERROR("No data to delete"));
   }
 
-  private Header<UserApiResponse> response(User user){
+  private Header<UserApiResponse> response(User user) {
 
     UserApiResponse userApiResponse = UserApiResponse.builder()
         .id(user.getId())
@@ -91,13 +107,11 @@ public class UserApiLogicService extends BaseService<UserApiRequest, UserApiResp
         .registeredAt(user.getRegisteredAt())
         .build();
 
-    System.out.println("userApiResponse in response()"+userApiResponse);
-
     return Header.OK(userApiResponse);
 
   }
 
-  private Header<UserApiResponse> updateResponse(User user, UserApiRequest request){
+  private Header<UserApiResponse> updateResponse(User user, UserApiRequest request) {
     user.setAccount(request.getAccount());
     user.setEmail(request.getEmail());
     user.setStatus(request.getStatus());
